@@ -22,6 +22,9 @@ Metrics/MethodLength:
 Metrics/ClassLength:
   Max: 1500
 
+Metrics/BlockLength:
+  Max: 100
+
 # No space makes the method definition shorter and differentiates
 # from a regular assignment.
 Style/SpaceAroundEqualsInParameterDefault:
