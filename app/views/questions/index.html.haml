@@ -1,0 +1,6 @@
+= link_to('Logout', destroy_user_session_path, method: :delete)
+
+- @questions&.each do |question|
+  %p=question.title
+  - question.answers.each do |answer|
+    %p=answer.body

@@ -1,6 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe AnswerController, type: :controller do
+RSpec.describe AnswersController, type: :controller do
+  let(:user) { create(:user) }
+
+  before { sign_in(user) }
+
   describe 'GET #index' do
     let(:answers) { create_list(:answer, 2) }
 
@@ -36,21 +40,21 @@ RSpec.describe AnswerController, type: :controller do
   end
 
   describe 'POST #create' do
+    let(:question) { create(:question) }
     subject { post :create, params: {answer: answer_attributes} }
 
     context 'when valid data' do
-      let(:question) { create(:question) }
       let(:answer_attributes) { attributes_for(:answer).merge(question_id: question.id) }
 
       it { expect { subject }.to change(Answer, :count).by(1) }
-      it { expect(subject).to redirect_to answer_path(assigns(:answer)) }
+      it { expect(subject).to redirect_to questions_path }
     end
 
-    context 'when invalid question data' do
-      let(:answer_attributes) { attributes_for(:invalid_answer) }
+    context 'when invalid answers data' do
+      let(:answer_attributes) { attributes_for(:invalid_answer).merge(question_id: question.id) }
 
       it { expect { subject }.not_to change(Answer, :count) }
-      it { expect(subject).to render_template(:new) }
+      it { expect(subject).to redirect_to question_path(question) }
     end
   end
 
@@ -68,7 +72,7 @@ RSpec.describe AnswerController, type: :controller do
       it { expect(answer.body).to eq(attributes_for(:new_answer)[:body]) }
     end
 
-    context 'when invalid question data' do
+    context 'when invalid answers data' do
       let(:answer) { create(:answer) }
       let(:answer_attributes) { attributes_for(:invalid_answer) }
 
@@ -85,6 +89,6 @@ RSpec.describe AnswerController, type: :controller do
     subject { delete :destroy, params: {id: answer} }
 
     it { expect { delete :destroy, params: {id: answer.id} }.to change(Answer, :count).by(-1) }
-    it { expect(subject).to redirect_to answer_path }
+    it { expect(subject).to redirect_to answers_path }
   end
 end
