@@ -1,4 +1,5 @@
-class QuestionController < ApplicationController
+class QuestionsController < ApplicationController
+  before_action :authenticate_user!
   before_action :load_question, only: %w[show edit update destroy]
 
   def index
@@ -33,7 +34,7 @@ class QuestionController < ApplicationController
 
   def destroy
     @question.destroy
-    redirect_to question_path
+    redirect_to questions_path
   end
 
   private

@@ -1,4 +1,5 @@
-class AnswerController < ApplicationController
+class AnswersController < ApplicationController
+  before_action :authenticate_user!
   before_action :load_answer, only: %w[show edit update destroy]
 
   def index
@@ -17,9 +18,10 @@ class AnswerController < ApplicationController
     @answer = Answer.new(answer_params)
 
     if @answer.save
-      redirect_to @answer
+      redirect_to questions_path
     else
-      render :new
+      @question = Question.find_by(id: params[:answer][:question_id])
+      redirect_to @question
     end
   end
 
@@ -33,7 +35,7 @@ class AnswerController < ApplicationController
 
   def destroy
     @answer.destroy
-    redirect_to answer_path
+    redirect_to answers_path
   end
 
   private
