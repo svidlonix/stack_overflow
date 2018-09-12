@@ -5,15 +5,6 @@ RSpec.describe AnswersController, type: :controller do
 
   before { sign_in(user) }
 
-  describe 'GET #index' do
-    let(:answers) { create_list(:answer, 2) }
-
-    before { get :index }
-
-    it { expect(assigns(:answers)).to match_array(answers) }
-    it { expect(response).to render_template(:index) }
-  end
-
   describe 'GET #show' do
     let(:answer) { create(:answer) }
 
@@ -41,20 +32,20 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'POST #create' do
     let(:question) { create(:question) }
-    subject { post :create, params: {answer: answer_attributes} }
+    subject { post :create, params: {answer: answer_attributes}, format: :js }
 
     context 'when valid data' do
       let(:answer_attributes) { attributes_for(:answer).merge(question_id: question.id) }
 
       it { expect { subject }.to change(Answer, :count).by(1) }
-      it { expect(subject).to redirect_to questions_path }
+      it { expect(subject).to render_template 'answers/create' }
     end
 
     context 'when invalid answers data' do
       let(:answer_attributes) { attributes_for(:invalid_answer).merge(question_id: question.id) }
 
       it { expect { subject }.not_to change(Answer, :count) }
-      it { expect(subject).to redirect_to question_path(question) }
+      it { expect(subject).to render_template 'answers/create' }
     end
   end
 

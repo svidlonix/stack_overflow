@@ -15,14 +15,9 @@ class AnswersController < ApplicationController
   def edit; end
 
   def create
+    @question = Question.find_by(id: params[:answer][:question_id])
     @answer = Answer.new(answer_params)
-
-    if @answer.save
-      redirect_to questions_path
-    else
-      @question = Question.find_by(id: params[:answer][:question_id])
-      redirect_to @question
-    end
+    @answer.save
   end
 
   def update

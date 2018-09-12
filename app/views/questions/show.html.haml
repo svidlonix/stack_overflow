@@ -1,7 +1,11 @@
-%p= @question.id
-%p= @question.title
+%h1= @question.title
 %p= @question.body
-= simple_form_for Answer.new do |f|
-  = f.hidden_field :question_id, value: @question.id
-  = f.input :body
-  = f.button :submit
+
+.answers
+  = render 'answers/index'
+
+.new_answer
+  = simple_form_for(Answer.new, remote: true) do |f|
+    = f.hidden_field :question_id, value: @question.id
+    = f.input :body
+    = f.button :submit

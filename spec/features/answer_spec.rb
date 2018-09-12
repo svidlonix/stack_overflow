@@ -7,7 +7,7 @@ describe 'the signin process', type: :feature do
     let!(:question) { create(:question) }
     let!(:answer) { create(:answer) }
 
-    it 'create answer' do
+    it 'create answer', js: true do
       body = Faker::Lorem.paragraph
       sign_in(existing_user)
       visit question_path(question)
@@ -15,11 +15,13 @@ describe 'the signin process', type: :feature do
       fill_in 'Body', with: body
       click_button 'Create'
 
-      expect(page).to have_content body
-      expect(current_path).to eq questions_path
+      within '.answers' do
+        expect(page).to have_content body
+      end
+      expect(current_path).to eq question_path(question)
     end
 
-    it 'see answer' do
+    it 'see answers' do
       sign_in(existing_user)
       visit answer_path(answer)
 
@@ -27,7 +29,7 @@ describe 'the signin process', type: :feature do
       expect(current_path).to eq answer_path(answer)
     end
 
-    it 'cannot create answer with invalid data' do
+    it 'cannot create answer with invalid data', js: true do
       body = ''
       sign_in(existing_user)
       visit question_path(question)
