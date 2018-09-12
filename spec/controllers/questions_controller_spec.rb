@@ -52,7 +52,7 @@ RSpec.describe QuestionsController, type: :controller do
     subject { post :create, params: {question: question_attributes} }
 
     context 'when valid data' do
-      let(:question_attributes) { attributes_for(:question) }
+      let(:question_attributes) { attributes_for(:question).merge(owner_id: user.id) }
 
       it { expect { subject }.to change(Question, :count).by(1) }
       it { expect(subject).to redirect_to question_path(assigns(:question)) }

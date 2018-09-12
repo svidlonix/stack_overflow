@@ -64,11 +64,6 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
   #
-
-  config.after(:all) do
-    DatabaseCleaner.clean_with(:truncation)
-  end
-
   Shoulda::Matchers.configure do |config|
     config.integrate do |with|
       # Choose a test framework:

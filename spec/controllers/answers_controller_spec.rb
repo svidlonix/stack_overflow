@@ -35,14 +35,18 @@ RSpec.describe AnswersController, type: :controller do
     subject { post :create, params: {answer: answer_attributes}, format: :js }
 
     context 'when valid data' do
-      let(:answer_attributes) { attributes_for(:answer).merge(question_id: question.id) }
+      let(:answer_attributes) do
+        attributes_for(:answer).merge(question_id: question.id, owner_id: user.id)
+      end
 
       it { expect { subject }.to change(Answer, :count).by(1) }
       it { expect(subject).to render_template 'answers/create' }
     end
 
     context 'when invalid answers data' do
-      let(:answer_attributes) { attributes_for(:invalid_answer).merge(question_id: question.id) }
+      let(:answer_attributes) do
+        attributes_for(:invalid_answer).merge(question_id: question.id, owner_id: user.id)
+      end
 
       it { expect { subject }.not_to change(Answer, :count) }
       it { expect(subject).to render_template 'answers/create' }
@@ -50,25 +54,26 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    let(:question) { create(:question) }
+    let(:answer) { create(:answer, question: question) }
+
     before do
-      patch :update, params: {id: answer.id, answer: answer_attributes}
+      patch :update, params: {id: answer.id, answer: answer_attributes, format: :js}
       answer.reload
     end
 
     context 'when valid data' do
-      let(:answer) { create(:answer) }
       let(:answer_attributes) { attributes_for(:new_answer) }
 
-      it { expect(subject).to redirect_to answer_path(assigns(:answer)) }
-      it { expect(answer.body).to eq(attributes_for(:new_answer)[:body]) }
+      it { expect(subject).to render_template('answers/update') }
+      it { expect(answer.body).to eq(answer_attributes[:body]) }
     end
 
     context 'when invalid answers data' do
-      let(:answer) { create(:answer) }
       let(:answer_attributes) { attributes_for(:invalid_answer) }
 
-      it { expect(subject).to render_template(:edit) }
-      it { expect(answer.body).to eq(attributes_for(:answer)[:body]) }
+      it { expect(subject).to render_template('answers/update') }
+      it { expect(answer.body).to eq(answer.body) }
     end
   end
 

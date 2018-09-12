@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'features/feature_helper'
 
 describe 'the sigup process', type: :feature do
   it 'signs with valid data' do
