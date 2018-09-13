@@ -51,6 +51,50 @@ describe 'the signin process', type: :feature do
       expect(find_field('Title').value).to eq(title)
       expect(find_field('Body').value).to eq(body)
     end
+
+    it 'can attach file when create question', js: true do
+      title = Faker::Lorem.sentence
+      body = Faker::Lorem.paragraph
+      sign_in(existing_user)
+      visit new_question_path
+
+      fill_in 'Title', with: title
+      fill_in 'Body', with: body
+      attach_file 'File', "#{Rails.root}/spec/first_test_file.txt"
+      click_button 'Create Question'
+
+      expect(page).to have_content('first_test_file.txt')
+    end
+
+    it 'can attach file when edit question', js: true do
+      sign_in(existing_user)
+      visit(edit_question_path(question1))
+
+      click_link('Add new attachment field')
+      attach_file 'File', "#{Rails.root}/spec/first_test_file.txt"
+      click_button 'Update'
+
+      expect(page).to have_content('first_test_file.txt')
+    end
+
+    it 'can remove file when edit question', js: true do
+      title = Faker::Lorem.sentence
+      body = Faker::Lorem.paragraph
+      sign_in(existing_user)
+
+      visit(new_question_path)
+
+      fill_in 'Title', with: title
+      fill_in 'Body', with: body
+      attach_file 'File', "#{Rails.root}/spec/first_test_file.txt"
+      click_button 'Create'
+
+      visit(edit_question_path(Question.last))
+      click_link('Remove this attachment')
+      click_button 'Update'
+
+      expect(page).not_to have_content('first_test_file.txt')
+    end
   end
 
   context 'when not logged in user' do
