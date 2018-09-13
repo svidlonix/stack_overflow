@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'features/feature_helper'
 
 describe 'the signin process', type: :feature do
   let(:existing_user) { create(:user) }
