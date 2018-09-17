@@ -13,8 +13,10 @@ describe 'the signin process', type: :feature do
       sign_in(existing_user)
       visit(question_path(question))
 
-      fill_in('Body', with: body)
-      click_button('Create')
+      within '#new_answer' do
+        fill_in('Body', with: body)
+        click_button('Create')
+      end
 
       within '.answers' do
         expect(page).to have_content(body)
@@ -61,7 +63,6 @@ describe 'the signin process', type: :feature do
     end
 
     it 'other user cannot update answer', js: true do
-      body = Faker::Lorem.paragraph
       sign_in(existing_other_user)
       visit(question_path(question))
 
@@ -86,6 +87,35 @@ describe 'the signin process', type: :feature do
       end
 
       expect(page).to have_content("Body can't be blank")
+    end
+
+    it 'can attach file when create answer', js: true do
+      body = Faker::Lorem.paragraph
+      sign_in(existing_user)
+      visit(question_path(question))
+
+      fill_in('Body', with: body)
+      attach_file 'File', "#{Rails.root}/spec/first_test_file.txt"
+      click_button('Create')
+
+      expect(page).to have_content('first_test_file.txt')
+      expect(current_path).to eq(question_path(question))
+    end
+
+    it 'can attach file when edit question', js: true do
+      sign_in(existing_user)
+      visit(question_path(question))
+
+      within '.answers' do
+        click_link('Edit')
+
+        click_link('Add new attachment field')
+        attach_file 'File', "#{Rails.root}/spec/first_test_file.txt"
+
+        click_button('Save')
+      end
+      expect(page).to have_content('first_test_file.txt')
+      expect(current_path).to eq(question_path(question))
     end
   end
 end

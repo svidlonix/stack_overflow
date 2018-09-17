@@ -1,0 +1,12 @@
+= simple_nested_form_for @question do |f|
+  = f.hidden_field :owner_id, value: current_user.id
+  = f.input :title
+  = f.input :body
+  = f.simple_fields_for :attachments do |a|
+    - if a.object.new_record?
+      = a.input :file, as: :file
+    - else
+      = a.object.file.file.filename
+    = a.link_to_remove 'Remove this attachment'
+  = f.link_to_add 'Add new attachment field', :attachments
+  = f.button :submit, 'Update'

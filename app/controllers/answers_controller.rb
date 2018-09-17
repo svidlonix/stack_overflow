@@ -37,6 +37,11 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body, :question_id, :owner_id)
+    params.require(:answer).permit(
+      :body,
+      :question_id,
+      :owner_id,
+      attachments_attributes: %i[id file attacher_id _destroy]
+    )
   end
 end
