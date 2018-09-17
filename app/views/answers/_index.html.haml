@@ -1,5 +1,9 @@
 - @question.answers.each do |answer|
   %p= answer.body
+  
+  %div{ class: "answer-vote-#{answer.id}" }
+    - unless answer.owner == current_user
+      = render partial: 'votes/vote', locals: { object: answer, type: 'Answer' }
 
   %ul
     %h3= 'Answe Fiels:'

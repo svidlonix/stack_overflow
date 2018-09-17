@@ -1,0 +1,5 @@
+<% if @object.errors.present? %>
+  $(".alert").html("<%= j @answer.errors.full_messages.join(', ') %>");
+<% else %>
+  $("<%= update_ajax_data(@object)%>").html("<%= j render partial: 'votes/vote', locals: { object: @object, type: params[:vote][:type] } %>");
+<% end %>
