@@ -1,5 +1,5 @@
 module VotesHelper
-  def update_ajax_data(object)
+  def object_vote_class(object)
     if object.instance_of? Answer
       ".answer-vote-#{object.id}"
     else

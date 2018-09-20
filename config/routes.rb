@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :questions
   resources :answers
   resources :votes
+  resources :comments
 
   root to: 'questions#index'
 end

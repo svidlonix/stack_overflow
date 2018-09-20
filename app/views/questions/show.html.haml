@@ -7,9 +7,13 @@
     - if attachment.file.present?
       %li= attachment.file.file.filename
 
+  %h3= 'Question comments:'
+  .question-comments
+    = render partial: 'comments/comments', locals: { object: @question, type: 'Question' }
+
   .answers
     %h3= 'Answers:'
-    = render 'answers/index'
+    = render partial: 'answers/index', locals: { question: @question }
 
   %br
   .new_answer

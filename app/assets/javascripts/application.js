@@ -10,8 +10,10 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+// app/assets/javascripts/cable.js
 //= require jquery
 //= require jquery.remotipart
+//= require action_cable
 //= require rails-ujs
 //= require activestorage
 //= require jquery_nested_form

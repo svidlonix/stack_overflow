@@ -1,4 +1,4 @@
-- @question.answers.each do |answer|
+- question.answers.each do |answer|
   %p= answer.body
   
   %div{ class: "answer-vote-#{answer.id}" }
@@ -13,18 +13,22 @@
   - if answer.owner == current_user
     = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
 
-    = simple_nested_form_for(answer, remote: true, multiple: true, html: { class: 'hidden', id: "edit-answer-#{answer.id}" }) do |f|
-      = f.hidden_field :owner_id, value: current_user.id
-      = f.hidden_field :question_id, value: @question.id
-      = f.input :body
-      = f.simple_fields_for :attachments do |a|
-        - if a.object.file.present?
-          = a.object.file.file.filename
-        - else
-          = a.input :file, as: :file
-        = a.link_to_remove 'Remove this attachment'
-      = f.link_to_add 'Add new attachment field', :attachments
-      = f.button :submit, 'Save'
+  %h3= 'Answer comments:'
+  %div{ class: "answer-comments-#{answer.id}" }
+    = render partial: 'comments/comments', locals: { object: answer, type: 'Answer', current_user: current_user }
+
+  = simple_nested_form_for(answer, remote: true, multiple: true, html: { class: 'hidden', id: "edit-answer-#{answer.id}" }) do |f|
+    = f.hidden_field :owner_id, value: current_user.id
+    = f.hidden_field :question_id, value: question.id
+    = f.input :body
+    = f.simple_fields_for :attachments do |a|
+      - if a.object.file.present?
+        = a.object.file.file.filename
+      - else
+        = a.input :file, as: :file
+      = a.link_to_remove 'Remove this attachment'
+    = f.link_to_add 'Add new attachment field', :attachments
+    = f.button :submit, 'Save'
 
 :javascript
   $('.edit-answer-link').click(function(e) {
