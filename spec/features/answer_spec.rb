@@ -2,6 +2,7 @@ require 'features/feature_helper'
 
 describe 'the signin process', type: :feature do
   let(:existing_user) { create(:user) }
+  let(:guest) { create(:user) }
   let(:existing_other_user) { create(:user) }
 
   context 'when logged in user' do
@@ -38,7 +39,7 @@ describe 'the signin process', type: :feature do
       visit(question_path(question))
 
       fill_in('Body', with: body)
-      click_button('Create')
+      click_button('Create Answer')
 
       within '.answers' do
         expect(page).to have_content(body)
@@ -96,7 +97,7 @@ describe 'the signin process', type: :feature do
 
       fill_in('Body', with: body)
       attach_file 'File', "#{Rails.root}/spec/first_test_file.txt"
-      click_button('Create')
+      click_button('Create Answer')
 
       expect(page).to have_content('first_test_file.txt')
       expect(current_path).to eq(question_path(question))
@@ -116,6 +117,37 @@ describe 'the signin process', type: :feature do
       end
       expect(page).to have_content('first_test_file.txt')
       expect(current_path).to eq(question_path(question))
+    end
+
+    it 'show answer in runtime', js: true do
+      body = Faker::Lorem.paragraph
+
+      Capybara.using_session('existing_user') do
+        sign_in(existing_user)
+        visit(question_path(question))
+      end
+
+      Capybara.using_session('guest') do
+        sign_in(existing_user)
+        visit(question_path(question))
+      end
+
+      Capybara.using_session('existing_user') do
+        within '#new_answer' do
+          fill_in('Body', with: body)
+          click_button('Create Answer')
+        end
+
+        within '.answers' do
+          expect(page).to have_content(body)
+        end
+      end
+
+      Capybara.using_session('guest') do
+        within '.answers' do
+          expect(page).to have_content(body)
+        end
+      end
     end
   end
 end

@@ -8,4 +8,6 @@ class User < ApplicationRecord
   has_many :answers, foreign_key: 'owner_id', class_name: 'Answer'
   has_many :answer_votes, foreign_key: 'voter_id', class_name: 'AnswerVote'
   has_many :question_votes, foreign_key: 'voter_id', class_name: 'QuestionVote'
+  has_many :answer_comments, foreign_key: 'commenter_id', class_name: 'AnswerComment'
+  has_many :question_comments, foreign_key: 'commenter_id', class_name: 'QuestionComment'
 end

@@ -1,6 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_answer, only: %w[show edit update destroy]
+  after_action :publish_data_runtime, only: %w[create]
 
   def index
     @answers = Answer.all
@@ -18,6 +19,7 @@ class AnswersController < ApplicationController
     @question = Question.find_by(id: params[:answer][:question_id])
     @answer = Answer.new(answer_params)
     @answer.save
+    publish_data_runtime
   end
 
   def update
@@ -42,6 +44,16 @@ class AnswersController < ApplicationController
       :question_id,
       :owner_id,
       attachments_attributes: %i[id file attacher_id _destroy]
+    )
+  end
+
+  def publish_data_runtime
+    ActionCable.server.broadcast(
+      'answers',
+      ApplicationController.render(
+        partial: 'answers/index',
+        locals:  {question: @question, current_user: current_user}
+      )
     )
   end
 end

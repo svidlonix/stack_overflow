@@ -1,1 +1,1 @@
-$("<%= update_ajax_data(@object)%>").html("<%= j render partial: 'votes/vote', locals: { object: @object, type: params[:vote][:type] } %>");
+$("<%= object_vote_class(@object)%>").html("<%= j render partial: 'votes/vote', locals: { object: @object, type: params[:vote][:type] } %>");

@@ -1,0 +1,12 @@
+.list-comments
+  - object.comments.each do |comment|
+    %p= comment.text
+
+%br
+.new_comment
+  = simple_nested_form_for(Comment.new, remote: true, multiple: true) do |f|
+    = f.hidden_field :commenter_id, value: current_user.id
+    = f.hidden_field :comment_on_id, value: object.id
+    = f.hidden_field :type, value: type
+    = f.input :text
+    = f.button :submit

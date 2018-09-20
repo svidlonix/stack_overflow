@@ -2,6 +2,7 @@ require 'features/feature_helper'
 
 describe 'the signin process', type: :feature do
   let(:existing_user) { create(:user) }
+  let(:guest) { create(:user) }
 
   context 'when logged in user' do
     let!(:question1) { create(:question) }
@@ -94,6 +95,36 @@ describe 'the signin process', type: :feature do
       click_button 'Update'
 
       expect(page).not_to have_content('first_test_file.txt')
+    end
+
+    it 'show question in runtime', js: true do
+      title = Faker::Lorem.sentence
+
+      Capybara.using_session('existing_user') do
+        sign_in(existing_user)
+        visit(questions_path)
+      end
+
+      Capybara.using_session('guest') do
+        sign_in(existing_user)
+        visit(questions_path)
+      end
+
+      Capybara.using_session('existing_user') do
+        body = Faker::Lorem.paragraph
+        visit(new_question_path)
+
+        fill_in('Title', with: title)
+        fill_in('Body', with: body)
+        click_button('Create')
+
+        expect(page).to have_content(title)
+        expect(page).to have_content(body)
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).to have_content(title)
+      end
     end
   end
 
