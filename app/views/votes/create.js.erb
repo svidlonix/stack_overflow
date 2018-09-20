@@ -1,5 +1,1 @@
-<% if @object.errors.present? %>
-  $(".alert").html("<%= j @answer.errors.full_messages.join(', ') %>");
-<% else %>
-  $("<%= object_vote_class(@object)%>").html("<%= j render partial: 'votes/vote', locals: { object: @object, type: params[:vote][:type] } %>");
-<% end %>
+$("<%= object_vote_class(@object)%>").html("<%= j render partial: 'votes/vote', locals: { object: @object, type: params[:vote][:type] } %>");

@@ -44,41 +44,4 @@ RSpec.describe CommentsController, type: :controller do
       end
     end
   end
-
-  describe 'GET #delete' do
-    before { sign_in(other_user) }
-
-    subject do
-      delete :destroy,
-             format: :js,
-             params: {
-               id:      comment.id,
-               comment: {
-                 comment_on_id: comment_on.id,
-                 commenter_id:  other_user.id,
-                 type:          type
-               }
-             }
-    end
-
-    context 'when cancel vote for answer' do
-      let!(:comment_on) { create(:answer) }
-      let(:type) { 'Answer' }
-      let(:comment) { create(:answer_comment, answer: comment_on) }
-
-      before { comment.reload }
-
-      it { expect { subject }.to change(AnswerComment, :count).by(-1) }
-    end
-
-    context 'when cancel vote for question' do
-      let!(:comment_on) { create(:question) }
-      let(:comment) { create(:question_comment, question: comment_on) }
-      let(:type) { 'Question' }
-
-      before { comment.reload }
-
-      it { expect { subject }.to change(QuestionComment, :count).by(-1) }
-    end
-  end
 end

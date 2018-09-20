@@ -17,7 +17,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #show' do
     let(:question) { create(:question) }
 
-    before { get :show, params: {id: question.id} }
+    before { get :show, params: { id: question.id } }
 
     it { expect(assigns(:question)).to eq(question) }
     it { expect(response).to render_template(:show) }
@@ -33,7 +33,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #edit' do
     let(:question) { create(:question) }
 
-    before { get :edit, params: {id: question.id} }
+    before { get :edit, params: { id: question.id } }
 
     it { expect(assigns(:question)).to eq(question) }
     it { expect(response).to render_template(:edit) }
@@ -42,14 +42,14 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #edit' do
     let(:question) { create(:question) }
 
-    before { get :edit, params: {id: question.id} }
+    before { get :edit, params: { id: question.id } }
 
     it { expect(assigns(:question)).to eq(question) }
     it { expect(response).to render_template(:edit) }
   end
 
   describe 'POST #create' do
-    subject { post :create, params: {question: question_attributes} }
+    subject { post :create, params: { question: question_attributes } }
 
     context 'when valid data' do
       let(:question_attributes) { attributes_for(:question).merge(owner_id: user.id) }
@@ -68,7 +68,7 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'PATCH #update' do
     before do
-      patch :update, params: {id: question, question: question_attributes}
+      patch :update, params: { id: question, question: question_attributes }
       question.reload
     end
 
@@ -94,7 +94,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     before { question.reload }
 
-    subject { delete :destroy, params: {id: question} }
+    subject { delete :destroy, params: { id: question } }
 
     it { expect { subject }.to change(Question, :count).by(-1) }
     it { expect(subject).to redirect_to questions_path }

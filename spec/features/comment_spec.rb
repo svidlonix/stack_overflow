@@ -43,34 +43,6 @@ describe 'the signin process', type: :feature do
     expect(current_path).to eq(question_path(question))
   end
 
-  it 'cannot create comment on answer with invalid data', js: true do
-    text = ''
-    sign_in(existing_user)
-    visit(question_path(question))
-
-    within ".answer-comments-#{answer.id}" do
-      fill_in('Text', with: text)
-      click_button('Create Comment')
-    end
-
-    expect(current_path).to eq(question_path(question))
-    expect(page).to have_content("Text can't be blank")
-  end
-
-  it 'cannot create comment on question with invalid data', js: true do
-    text = ''
-    sign_in(existing_user)
-    visit(question_path(question))
-
-    within '.question-comments' do
-      fill_in('Text', with: text)
-      click_button('Create Comment')
-    end
-
-    expect(current_path).to eq(question_path(question))
-    expect(page).to have_content("Text can't be blank")
-  end
-
   it 'show comment on question in runtime', js: true do
     text = Faker::Lorem.paragraph
 

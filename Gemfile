@@ -42,6 +42,7 @@ gem 'haml'
 gem 'jquery-rails'
 gem 'nested_form'
 gem 'remotipart'
+gem 'responders'
 gem 'simple_form'
 
 group :development, :test do
