@@ -1,6 +1,6 @@
 <% if @answer.errors.present? %>
   $(".alert").html("<%= j @answer.errors.full_messages.join(', ') %>");
 <% else %>
-  $('.answers').html("<%= j render partial: 'answers/index', locals: { question: @question } %>");
+  $('.answers').html("<%= j render partial: 'answers/index', locals: { question: @question, current_user: current_user } %>");
   $('#new_answer_body').val('');
 <% end %>

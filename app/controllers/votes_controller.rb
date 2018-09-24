@@ -1,6 +1,8 @@
 class VotesController < ApplicationController
   before_action :voter_for, only: %w[create destroy]
 
+  load_and_authorize_resource
+
   respond_to :js
 
   def create

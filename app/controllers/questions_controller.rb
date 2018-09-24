@@ -1,18 +1,13 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_question, only: %w[show edit update destroy]
 
-  def index
-    @questions = Question.all
-    respond_with(@questions)
-  end
+  load_and_authorize_resource
+
+  def index; end
 
   def show; end
 
-  def new
-    @question = Question.new
-    respond_with(@questions)
-  end
+  def new; end
 
   def edit; end
 
@@ -30,10 +25,6 @@ class QuestionsController < ApplicationController
   end
 
   private
-
-  def load_question
-    @question = Question.find_by(id: params[:id])
-  end
 
   def question_params
     params.require(:question).permit(:title, :body, :owner_id, attachments_attributes: %i[id file attacher_id _destroy])

@@ -1,18 +1,15 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_answer, only: %w[show edit update destroy]
+
+  load_and_authorize_resource
 
   respond_to :js
 
-  def index
-    @answers = Answer.all
-  end
+  def index; end
 
   def show; end
 
-  def new
-    @answer = Answer.new
-  end
+  def new; end
 
   def edit; end
 
@@ -31,10 +28,6 @@ class AnswersController < ApplicationController
   end
 
   private
-
-  def load_answer
-    @answer = Answer.find_by(id: params[:id])
-  end
 
   def answer_params
     params.require(:answer).permit(
