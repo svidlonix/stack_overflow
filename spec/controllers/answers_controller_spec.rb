@@ -8,7 +8,7 @@ RSpec.describe AnswersController, type: :controller do
   describe 'GET #show' do
     let(:answer) { create(:answer) }
 
-    before { get :show, params: {id: answer.id} }
+    before { get :show, params: { id: answer.id } }
 
     it { expect(assigns(:answer)).to eq(answer) }
     it { expect(response).to render_template(:show) }
@@ -24,7 +24,7 @@ RSpec.describe AnswersController, type: :controller do
   describe 'GET #edit' do
     let(:answer) { create(:answer) }
 
-    before { get :edit, params: {id: answer.id} }
+    before { get :edit, params: { id: answer.id } }
 
     it { expect(assigns(:answer)).to eq(answer) }
     it { expect(response).to render_template(:edit) }
@@ -32,7 +32,7 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'POST #create' do
     let(:question) { create(:question) }
-    subject { post :create, params: {answer: answer_attributes}, format: :js }
+    subject { post :create, params: { answer: answer_attributes }, format: :js }
 
     context 'when valid data' do
       let(:answer_attributes) do
@@ -58,7 +58,7 @@ RSpec.describe AnswersController, type: :controller do
     let(:answer) { create(:answer, question: question) }
 
     before do
-      patch :update, params: {id: answer.id, answer: answer_attributes, format: :js}
+      patch :update, params: { id: answer.id, answer: answer_attributes, format: :js }
       answer.reload
     end
 
@@ -82,9 +82,9 @@ RSpec.describe AnswersController, type: :controller do
 
     before { answer.reload }
 
-    subject { delete :destroy, params: {id: answer} }
+    subject { delete :destroy, params: { id: answer } }
 
-    it { expect { delete :destroy, params: {id: answer.id} }.to change(Answer, :count).by(-1) }
+    it { expect { delete :destroy, params: { id: answer.id } }.to change(Answer, :count).by(-1) }
     it { expect(subject).to redirect_to answers_path }
   end
 end

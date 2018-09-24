@@ -1,5 +1,0 @@
-<% if @object.errors.present? %>
-  $('.alert').html("<%= j @answer.errors.full_messages.join(', ') %>");
-<% else %>
-  $("<%= object_comment_class(@object)%>").html("<%= j render partial: 'comments/comments', locals: { object: @object, type: params[:comment][:type] } %>");
-<% end %>

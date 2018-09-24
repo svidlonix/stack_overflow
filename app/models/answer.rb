@@ -10,4 +10,18 @@ class Answer < ApplicationRecord
   accepts_nested_attributes_for :attachments, allow_destroy: true
 
   validates :body, presence: true
+
+  after_create :publish_data_runtime
+
+  private
+
+  def publish_data_runtime
+    ActionCable.server.broadcast(
+      'answers',
+      ApplicationController.render(
+        partial: 'answers/index',
+        locals:  { question: question, current_user: owner }
+      )
+    )
+  end
 end
