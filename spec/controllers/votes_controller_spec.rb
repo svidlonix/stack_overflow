@@ -70,7 +70,7 @@ RSpec.describe VotesController, type: :controller do
   end
 
   describe 'GET #delete' do
-    before { sign_in(other_user) }
+    before { sign_in(user) }
 
     subject do
       delete :destroy,
@@ -79,30 +79,54 @@ RSpec.describe VotesController, type: :controller do
                id:   vote.id,
                vote: {
                  vote_for_id: vote_for.id,
-                 voter_id:    other_user.id,
+                 voter_id:    user.id,
                  type:        type
                }
              }
     end
 
-    context 'when cancel vote for answer' do
+    context 'owner can cancel vote for answer' do
+      let!(:user) { owner }
       let!(:vote_for) { create(:answer) }
       let(:type) { 'Answer' }
-      let(:vote) { create(:answer_vote, answer: vote_for) }
+      let(:vote) { create(:answer_vote, answer: vote_for, voter: owner) }
 
       before { vote.reload }
 
       it { expect { subject }.to change(AnswerVote, :count).by(-1) }
     end
 
-    context 'when cancel vote for question' do
+    context 'wner can vote for question' do
+      let!(:user) { owner }
       let!(:vote_for) { create(:question) }
-      let(:vote) { create(:question_vote, question: vote_for) }
+      let(:vote) { create(:question_vote, question: vote_for, voter: owner) }
       let(:type) { 'Question' }
 
       before { vote.reload }
 
       it { expect { subject }.to change(QuestionVote, :count).by(-1) }
+    end
+
+    context 'other user cannot cancel vote for answer' do
+      let!(:user) { other_user }
+      let!(:vote_for) { create(:answer) }
+      let(:type) { 'Answer' }
+      let(:vote) { create(:answer_vote, answer: vote_for, voter: owner) }
+
+      before { vote.reload }
+
+      it { expect { subject }.not_to change(AnswerVote, :count) }
+    end
+
+    context 'other user cannot vote for question' do
+      let!(:user) { other_user }
+      let!(:vote_for) { create(:question) }
+      let(:vote) { create(:question_vote, question: vote_for, voter: owner) }
+      let(:type) { 'Question' }
+
+      before { vote.reload }
+
+      it { expect { subject }.not_to change(QuestionVote, :count) }
     end
   end
 end
