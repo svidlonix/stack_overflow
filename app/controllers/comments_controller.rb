@@ -1,6 +1,8 @@
 class CommentsController < ApplicationController
   before_action :comment_on, only: %w[create destroy]
 
+  load_and_authorize_resource
+
   respond_to :js
 
   def create

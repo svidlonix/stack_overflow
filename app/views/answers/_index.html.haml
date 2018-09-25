@@ -3,15 +3,15 @@
   
   %div{ class: "answer-vote-#{answer.id}" }
     - unless answer.owner == current_user
-      = render partial: 'votes/vote', locals: { object: answer, type: 'Answer' }
+      = render partial: 'votes/vote', locals: { object: answer, type: 'Answer', current_user: current_user }
 
   %ul
     %h3= 'Answe Fiels:'
     - answer.attachments.each do |attachment|
       - if attachment.file.present?
         %li= attachment.file.file.filename
-  - if answer.owner == current_user
-    = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+    - if answer.owner == current_user
+      = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
 
   %h3= 'Answer comments:'
   %div{ class: "answer-comments-#{answer.id}" }

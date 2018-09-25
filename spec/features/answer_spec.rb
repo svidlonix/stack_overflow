@@ -4,7 +4,6 @@ describe 'the signin process', type: :feature do
   let(:existing_user) { create(:user) }
   let(:guest) { create(:user) }
   let(:existing_other_user) { create(:user) }
-
   context 'when logged in user' do
     let!(:question) { create(:question, owner: existing_user) }
     let!(:answer) { create(:answer, question: question, owner: existing_user) }

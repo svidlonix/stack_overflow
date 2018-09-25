@@ -2,3 +2,5 @@
 
 .questions
   = render partial: 'questions/questions_list', locals: { questions: @questions }
+  - if can? :new, Question
+    = link_to 'Add new question', new_question_path

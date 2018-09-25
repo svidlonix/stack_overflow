@@ -1,7 +1,7 @@
 require 'features/feature_helper'
 
 describe 'the signin process', type: :feature do
-  let(:existing_user) { create(:user) }
+  let(:existing_user) { create(:admin) }
   let(:guest) { create(:user) }
 
   context 'when logged in user' do

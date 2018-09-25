@@ -29,4 +29,4 @@
 
   .question-vote
     - unless @question.owner == current_user
-      = render partial: 'votes/vote', locals: { object: @question, type: 'Question' }
+      = render partial: 'votes/vote', locals: { object: @question, type: 'Question', current_user: current_user }
