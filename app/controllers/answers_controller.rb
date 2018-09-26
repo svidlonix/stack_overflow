@@ -5,14 +5,6 @@ class AnswersController < ApplicationController
 
   respond_to :js
 
-  def index; end
-
-  def show; end
-
-  def new; end
-
-  def edit; end
-
   def create
     @question = Question.find_by(id: params[:answer][:question_id])
     respond_with(@answer = Answer.create(answer_params))

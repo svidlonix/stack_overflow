@@ -5,52 +5,12 @@ RSpec.describe AnswersController, type: :controller do
 
   before { sign_in(user) }
 
-  describe 'GET #show' do
-    let(:answer) { create(:answer) }
-
-    before { get :show, params: { id: answer.id } }
-
-    it { expect(assigns(:answer)).to eq(answer) }
-    it { expect(response).to render_template(:show) }
-  end
-
-  describe 'GET #new' do
-    before { get :new }
-
-    it { expect(assigns(:answer)).to be_a_new(Answer) }
-    it { expect(response).to render_template(:new) }
-  end
-
-  describe 'GET #edit' do
-    let(:answer) { create(:answer) }
-
-    before { get :edit, params: { id: answer.id } }
-
-    it { expect(assigns(:answer)).to eq(answer) }
-    it { expect(response).to render_template(:edit) }
-  end
-
   describe 'POST #create' do
     let(:question) { create(:question) }
     subject { post :create, params: { answer: answer_attributes }, format: :js }
 
-    context 'when valid data' do
-      let(:answer_attributes) do
-        attributes_for(:answer).merge(question_id: question.id, owner_id: user.id)
-      end
-
-      it { expect { subject }.to change(Answer, :count).by(1) }
-      it { expect(subject).to render_template 'answers/create' }
-    end
-
-    context 'when invalid answers data' do
-      let(:answer_attributes) do
-        attributes_for(:invalid_answer).merge(question_id: question.id, owner_id: user.id)
-      end
-
-      it { expect { subject }.not_to change(Answer, :count) }
-      it { expect(subject).to render_template 'answers/create' }
-    end
+    it_should_behave_like 'create_answer', 'answer', 1
+    it_should_behave_like 'create_answer', 'invalid_answer', 0
   end
 
   describe 'PATCH #update' do

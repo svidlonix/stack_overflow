@@ -15,12 +15,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
-    let(:question) { create(:question) }
-
-    before { get :show, params: { id: question.id } }
-
-    it { expect(assigns(:question)).to eq(question) }
-    it { expect(response).to render_template(:show) }
+    it_should_behave_like 'show_question', :show
   end
 
   describe 'GET #new' do
@@ -31,21 +26,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
-    let(:question) { create(:question) }
-
-    before { get :edit, params: { id: question.id } }
-
-    it { expect(assigns(:question)).to eq(question) }
-    it { expect(response).to render_template(:edit) }
-  end
-
-  describe 'GET #edit' do
-    let(:question) { create(:question) }
-
-    before { get :edit, params: { id: question.id } }
-
-    it { expect(assigns(:question)).to eq(question) }
-    it { expect(response).to render_template(:edit) }
+    it_should_behave_like 'show_question', :edit
   end
 
   describe 'POST #create' do
@@ -94,7 +75,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     before { question.reload }
 
-    subject { delete :destroy, params: { id: question } }
+    subject { delete :destroy, params: { id: question.id } }
 
     it { expect { subject }.to change(Question, :count).by(-1) }
     it { expect(subject).to redirect_to questions_path }

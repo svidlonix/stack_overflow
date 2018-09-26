@@ -20,53 +20,10 @@ RSpec.describe VotesController, type: :controller do
            }
     end
 
-    context 'when vote for question' do
-      let!(:vote_for) { create(:question) }
-      let(:type) { 'Question' }
-      let(:commit) { 'Vote For' }
-
-      it 'shod be created' do
-        expect { subject }.to change(QuestionVote, :count).by(1)
-        expect(QuestionVote.last.vote_for_id).to eq(vote_for.id)
-        expect(QuestionVote.last.vote).to eq('vote_for')
-      end
-    end
-
-    context 'when vote for answer' do
-      let!(:vote_for) { create(:answer) }
-      let(:type) { 'Answer' }
-      let(:commit) { 'Vote For' }
-
-      it 'shod be created' do
-        expect { subject }.to change(AnswerVote, :count).by(1)
-        expect(AnswerVote.last.vote_for_id).to eq(vote_for.id)
-        expect(AnswerVote.last.vote).to eq('vote_for')
-      end
-    end
-
-    context 'when owner question try vote against' do
-      let!(:vote_for) { create(:question) }
-      let(:type) { 'Question' }
-      let(:commit) { 'Vote Against' }
-
-      it 'shod be created' do
-        expect { subject }.to change(QuestionVote, :count).by(1)
-        expect(QuestionVote.last.vote_for_id).to eq(vote_for.id)
-        expect(QuestionVote.last.vote).to eq('vote_against')
-      end
-    end
-
-    context 'when owner answer try vote against' do
-      let!(:vote_for) { create(:answer) }
-      let(:type) { 'Answer' }
-      let(:commit) { 'Vote Against' }
-
-      it 'shod be created' do
-        expect { subject }.to change(AnswerVote, :count).by(1)
-        expect(AnswerVote.last.vote_for_id).to eq(vote_for.id)
-        expect(AnswerVote.last.vote).to eq('vote_against')
-      end
-    end
+    it_should_behave_like 'create_vote', :question, 'Question', 'QuestionVote', 'Vote For'
+    it_should_behave_like 'create_vote', :answer, 'Answer', 'AnswerVote', 'Vote For'
+    it_should_behave_like 'create_vote', :question, 'Question', 'QuestionVote', 'Vote Against'
+    it_should_behave_like 'create_vote', :answer, 'Answer', 'AnswerVote', 'Vote Against'
   end
 
   describe 'GET #delete' do
@@ -85,48 +42,9 @@ RSpec.describe VotesController, type: :controller do
              }
     end
 
-    context 'owner can cancel vote for answer' do
-      let!(:user) { owner }
-      let!(:vote_for) { create(:answer) }
-      let(:type) { 'Answer' }
-      let(:vote) { create(:answer_vote, answer: vote_for, voter: owner) }
-
-      before { vote.reload }
-
-      it { expect { subject }.to change(AnswerVote, :count).by(-1) }
-    end
-
-    context 'wner can vote for question' do
-      let!(:user) { owner }
-      let!(:vote_for) { create(:question) }
-      let(:vote) { create(:question_vote, question: vote_for, voter: owner) }
-      let(:type) { 'Question' }
-
-      before { vote.reload }
-
-      it { expect { subject }.to change(QuestionVote, :count).by(-1) }
-    end
-
-    context 'other user cannot cancel vote for answer' do
-      let!(:user) { other_user }
-      let!(:vote_for) { create(:answer) }
-      let(:type) { 'Answer' }
-      let(:vote) { create(:answer_vote, answer: vote_for, voter: owner) }
-
-      before { vote.reload }
-
-      it { expect { subject }.not_to change(AnswerVote, :count) }
-    end
-
-    context 'other user cannot vote for question' do
-      let!(:user) { other_user }
-      let!(:vote_for) { create(:question) }
-      let(:vote) { create(:question_vote, question: vote_for, voter: owner) }
-      let(:type) { 'Question' }
-
-      before { vote.reload }
-
-      it { expect { subject }.not_to change(QuestionVote, :count) }
-    end
+    it_should_behave_like 'delete_vote', :answer, 'Answer', 'AnswerVote'
+    it_should_behave_like 'delete_vote', :question, 'Question', 'QuestionVote'
+    it_should_behave_like 'camnnot_delete_vote', :question, 'Question', 'QuestionVote'
+    it_should_behave_like 'camnnot_delete_vote', :answer, 'Answer', 'AnswerVote'
   end
 end
