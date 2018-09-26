@@ -34,10 +34,12 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 # Reduces boot times through caching; required in config/boot.rb
+gem 'active_model_serializers'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'cancancan'
 gem 'carrierwave'
 gem 'devise'
+gem 'doorkeeper'
 gem 'faker'
 gem 'haml'
 gem 'jquery-rails'
