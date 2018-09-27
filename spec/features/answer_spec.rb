@@ -26,10 +26,13 @@ describe 'the signin process', type: :feature do
 
     it 'can see answers' do
       sign_in(existing_user)
-      visit(answer_path(answer))
+      visit(question_path(question))
 
-      expect(page).to have_content(answer.body)
-      expect(current_path).to eq(answer_path(answer))
+      within '.answers' do
+        expect(page).to have_content(answer.body)
+      end
+
+      expect(current_path).to eq(question_path(question))
     end
 
     it 'cannot create answer with invalid data', js: true do

@@ -20,28 +20,7 @@ RSpec.describe CommentsController, type: :controller do
            }
     end
 
-    context 'when comment on question' do
-      let!(:comment_on) { create(:question) }
-      let(:text) { Faker::Lorem.sentence }
-      let(:type) { 'Question' }
-
-      it 'shod be created' do
-        expect { subject }.to change(QuestionComment, :count).by(1)
-        expect(QuestionComment.last.comment_on_id).to eq(comment_on.id)
-        expect(QuestionComment.last.text).to eq(text)
-      end
-    end
-
-    context 'when comment on answer' do
-      let!(:comment_on) { create(:answer) }
-      let(:text) { Faker::Lorem.sentence }
-      let(:type) { 'Answer' }
-
-      it 'shod be created' do
-        expect { subject }.to change(AnswerComment, :count).by(1)
-        expect(AnswerComment.last.comment_on_id).to eq(comment_on.id)
-        expect(AnswerComment.last.text).to eq(text)
-      end
-    end
+    it_should_behave_like 'create_comment', :question, 'Question', 'QuestionComment'
+    it_should_behave_like 'create_comment', :answer, 'Answer', 'AnswerComment'
   end
 end

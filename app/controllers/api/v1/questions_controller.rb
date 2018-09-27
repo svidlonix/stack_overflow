@@ -1,6 +1,6 @@
 module Api
   module V1
-    class Api::V1::QuestionsController < Api::V1::BaseController
+    class QuestionsController < Api::V1::BaseController
       load_and_authorize_resource
 
       def index
