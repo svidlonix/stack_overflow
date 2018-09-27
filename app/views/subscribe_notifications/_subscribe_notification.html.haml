@@ -1,0 +1,12 @@
+%br
+- subscribe_notification = SubscribeNotification.find_by(user_id: current_user, question_id: question.id)
+-if subscribe_notification.present?
+  = simple_form_for(:subscribe_notification, url: subscribe_notification_path(subscribe_notification), method: :delete, remote: true) do |f|
+    = f.hidden_field :user_id, value: current_user.id
+    = f.hidden_field :question_id, value: question.id
+    = f.button :submit, 'Unsubscribe Notifications'
+- else
+  = simple_form_for(:subscribe_notification, url: subscribe_notifications_path, method: :post, remote: true) do |f|
+    = f.hidden_field :user_id, value: current_user.id
+    = f.hidden_field :question_id, value: question.id
+    = f.button :submit, 'Subscribe Notifications'

@@ -1,6 +1,6 @@
 require 'features/feature_helper'
 
-describe 'the signin process', type: :feature do
+describe 'can work with quetion', type: :feature do
   let(:existing_user) { create(:admin) }
   let(:guest) { create(:user) }
 

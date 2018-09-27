@@ -13,7 +13,7 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true
 
-  after_create :publish_data_runtime
+  after_create :publish_data_runtime, :created_answer_notification
 
   private
 
@@ -25,5 +25,9 @@ class Answer < ApplicationRecord
         locals:  { question: question, current_user: owner }
       )
     )
+  end
+
+  def created_answer_notification
+    CreatedAnswerNotification.call(question: question)
   end
 end

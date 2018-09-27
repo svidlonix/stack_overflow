@@ -62,6 +62,7 @@ RSpec.describe Api::V1::QuestionsController, type: :controller do
       let(:token) { access_token.token }
 
       it { expect { subject }.to change(Question, :count).by(1) }
+      it { expect { subject }.to change(SubscribeNotification, :count).by(1) }
       it 'check question params' do
         subject
         expect(Question.last.title).to eq(question_attributes[:title])

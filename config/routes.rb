@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :answers
   resources :votes
   resources :comments
+  resources :subscribe_notifications
 
   root to: 'questions#index'
 

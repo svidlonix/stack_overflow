@@ -5,6 +5,7 @@ class Question < ApplicationRecord
   has_many :attachments, foreign_key: 'attacher_id', class_name: 'QuestionAttachment'
   has_many :votes, foreign_key: 'vote_for_id', class_name: 'QuestionVote'
   has_many :comments, foreign_key: 'comment_on_id', class_name: 'QuestionComment'
+  has_many :subscribe_notifications
 
   alias_attribute :user_id, :owner_id
 
@@ -14,7 +15,9 @@ class Question < ApplicationRecord
 
   validates :body, :title, presence: true
 
-  after_create :publish_data_runtime
+  after_create :publish_data_runtime, :add_owner_to_subscriber
+
+  scope :created_today, -> { where('created_at >= ?', Time.zone.now.beginning_of_day) }
 
   private
 
@@ -26,5 +29,9 @@ class Question < ApplicationRecord
         locals:  { questions: Question.all }
       )
     )
+  end
+
+  def add_owner_to_subscriber
+    SubscribeNotification.create(user_id: owner.id, question_id: id)
   end
 end

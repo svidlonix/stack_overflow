@@ -7,6 +7,7 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many(:answer_comments) }
     it { is_expected.to have_many(:question_comments) }
     it { is_expected.to have_many(:authorizations) }
+    it { is_expected.to have_many(:subscribe_notifications) }
   end
 
   describe '.find_or_create_for_auth' do

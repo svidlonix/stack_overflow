@@ -25,7 +25,8 @@ class Ability
   end
 
   def visitor(user)
-    can :create, [Answer, Comment, Question, Vote]
+    can :create, [Answer, Comment, Question, Vote, SubscribeNotification]
+    can :destroy, SubscribeNotification, user: user
     can :destroy, Comment, commenter: user
     can :destroy, Vote, voter: user
     can %i[edit update destroy], [Answer, Question], owner: user
