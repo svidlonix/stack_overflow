@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   resources :votes
   resources :comments
   resources :subscribe_notifications
+  resources :searchs do
+    post :search, on: :collection
+  end
 
   root to: 'questions#index'
 

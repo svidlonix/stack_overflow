@@ -1,0 +1,8 @@
+- unless @results.present?
+  %br
+  - byebug
+  = "Nothing was founded by '#{params[:search_by]}s' with query '#{params[:search]}''"
+  
+- @results.each do |object|
+  %br
+  = render object
