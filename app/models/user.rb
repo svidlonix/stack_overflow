@@ -12,6 +12,9 @@ class User < ApplicationRecord
   has_many :question_votes, foreign_key: 'voter_id', class_name: 'QuestionVote'
   has_many :answer_comments, foreign_key: 'commenter_id', class_name: 'AnswerComment'
   has_many :question_comments, foreign_key: 'commenter_id', class_name: 'QuestionComment'
+  has_many :subscribe_notifications
+
+  scope :visitors, -> { where(admin: false, manager: false) }
 
   def self.find_or_create_for_auth(auth)
     unless user = find_by(email: auth.info.email)

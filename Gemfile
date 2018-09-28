@@ -47,7 +47,9 @@ gem 'nested_form'
 gem 'omniauth-facebook'
 gem 'remotipart'
 gem 'responders'
+gem 'sidekiq'
 gem 'simple_form'
+gem 'smart_init'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

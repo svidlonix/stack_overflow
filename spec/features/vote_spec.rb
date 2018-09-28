@@ -1,6 +1,6 @@
 require 'features/feature_helper'
 
-describe 'the vote process', type: :feature do
+describe 'can work with vote', type: :feature do
   let(:existing_user) { create(:user) }
   let(:owner_user) { create(:user) }
 

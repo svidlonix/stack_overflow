@@ -1,0 +1,5 @@
+<% if @subscribe_notification.errors.present? %>
+  $(".alert").html("<%= j @subscribe_notification.errors.full_messages.join(', ') %>");
+<% else %>
+  $('.subscribe_notification').html("<%= j render partial: 'subscribe_notifications/subscribe_notification', locals: { question: @subscribe_notification.question, current_user: current_user } %>");
+<% end %>

@@ -30,3 +30,6 @@
   .question-vote
     - unless @question.owner == current_user
       = render partial: 'votes/vote', locals: { object: @question, type: 'Question', current_user: current_user }
+
+  %h3= 'Subscribe Notification'
+  = render partial: 'subscribe_notifications/subscribe_notification', locals: { question: @question, current_user: current_user }
