@@ -42,7 +42,9 @@ gem 'devise'
 gem 'doorkeeper'
 gem 'faker'
 gem 'haml'
+gem 'jdbc-mysql'
 gem 'jquery-rails'
+gem 'mysql2'
 gem 'nested_form'
 gem 'omniauth-facebook'
 gem 'remotipart'
@@ -50,6 +52,7 @@ gem 'responders'
 gem 'sidekiq'
 gem 'simple_form'
 gem 'smart_init'
+gem 'thinking-sphinx'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

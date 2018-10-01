@@ -9,6 +9,8 @@ require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 require_relative 'support/controller_macros'
+require 'thinking_sphinx/test'
+require 'database_cleaner'
 
 Sidekiq::Testing.fake!
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -41,6 +43,7 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
+  ThinkingSphinx::Test.init
   config.use_transactional_fixtures = true
   config.include FactoryBot::Syntax::Methods
   config.include Devise::Test::ControllerHelpers, type: :controller

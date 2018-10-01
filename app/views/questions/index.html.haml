@@ -1,5 +1,19 @@
 = link_to('Logout', destroy_user_session_path, method: :delete)
 
+= form_tag(search_searchs_path, remote: true) do
+  = radio_button_tag :search_by, 'ThinkingSphinx', checked: true
+  = 'search by all'
+  = radio_button_tag :search_by, 'Question'
+  = 'search by questions'
+  = radio_button_tag :search_by, 'Answer'
+  = 'search by answers'
+  = radio_button_tag :search_by, 'Comment'
+  = 'search by comments'
+  = radio_button_tag :search_by, 'User'
+  = 'search by users'
+  = text_field_tag :search
+  = submit_tag 'Search'
+
 .questions
   = render partial: 'questions/questions_list', locals: { questions: @questions }
   - if can? :new, Question
