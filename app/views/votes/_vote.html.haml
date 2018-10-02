@@ -4,13 +4,13 @@
 %br
 - unless object.owner == current_user
   -if object.user_vote(current_user).present?
-    = simple_form_for(:vote, url: vote_path(object.user_vote(current_user)), method: :delete, remote: true) do |f|
+    = simple_form_for(:vote, url: vote_path(object.user_vote(current_user)), method: :delete, remote: true, authenticity_token: true) do |f|
       = f.hidden_field :voter_id, value: current_user.id
       = f.hidden_field :vote_for_id, value: object.id
       = f.hidden_field :type, value: type
       = f.button :submit, 'Delete Vote'
   - else
-    = simple_form_for(:vote, url: votes_path, method: :post, remote: true) do |f|
+    = simple_form_for(:vote, url: votes_path, method: :post, remote: true, authenticity_token: true) do |f|
       = f.hidden_field :voter_id, value: current_user.id
       = f.hidden_field :vote_for_id, value: object.id
       = f.hidden_field :type, value: type

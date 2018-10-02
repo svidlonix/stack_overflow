@@ -1,6 +1,6 @@
 = link_to('Logout', destroy_user_session_path, method: :delete)
 
-= form_tag(search_searchs_path, remote: true) do
+= form_tag(search_searchs_path, remote: true, authenticity_token: true) do
   = radio_button_tag :search_by, 'ThinkingSphinx', checked: true
   = 'search by all'
   = radio_button_tag :search_by, 'Question'
