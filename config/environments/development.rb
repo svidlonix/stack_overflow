@@ -22,7 +22,7 @@ Rails.application.configure do
       'Cache-Control' => "public, max-age=#{2.days.to_i}"
     }
   else
-    config.action_controller.perform_caching = false
+    config.action_controller.perform_caching = true
 
     config.cache_store = :null_store
   end
@@ -62,4 +62,6 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  config.cache_store = :redis_store, "redis://localhost:6379/0/cache", { expires_in: 90.minutes }
 end

@@ -1,5 +1,5 @@
 class AnswerComment < Comment
-  belongs_to :answer, foreign_key: 'comment_on_id', class_name: 'Answer', optional: true
+  belongs_to :answer, foreign_key: 'comment_on_id', class_name: 'Answer', optional: true, touch: true
 
   after_create :publish_qanswern_comment_runtime
 

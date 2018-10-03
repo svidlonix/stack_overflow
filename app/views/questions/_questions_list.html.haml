@@ -1,5 +1,6 @@
 - questions&.each do |question|
-  %p=question.title
-  %p="Count of answers: #{question.answers.count}"
-  - question.answers.each do |answer|
-    %p=answer.body
+  - cache question do
+    %p=question.title
+    %p="Count of answers: #{question.answers.count}"
+    - question.answers.each do |answer|
+      %p=answer.body

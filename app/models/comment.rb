@@ -1,7 +1,7 @@
 class Comment < ApplicationRecord
   include CommentsControllerHelper
 
-  belongs_to :commenter, foreign_key: 'commenter_id', class_name: 'User'
+  belongs_to :commenter, foreign_key: 'commenter_id', class_name: 'User', touch: true
 
   validates :text, presence: true
 
