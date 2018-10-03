@@ -1,7 +1,7 @@
 class Answer < ApplicationRecord
   include Vuetable
 
-  belongs_to :question
+  belongs_to :question, touch: true
   belongs_to :owner, class_name: 'User'
   has_many :attachments, foreign_key: 'attacher_id', class_name: 'AnswerAttachment'
   has_many :votes, foreign_key: 'vote_for_id', class_name: 'AnswerVote'

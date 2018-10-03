@@ -40,6 +40,8 @@ gem 'cancancan'
 gem 'carrierwave'
 gem 'devise'
 gem 'doorkeeper'
+gem 'dotenv'
+gem 'dotenv-deployment'
 gem 'faker'
 gem 'haml'
 gem 'jdbc-mysql'
@@ -47,16 +49,15 @@ gem 'jquery-rails'
 gem 'mysql2'
 gem 'nested_form'
 gem 'omniauth-facebook'
+gem 'redis-rails'
 gem 'remotipart'
 gem 'responders'
 gem 'sidekiq'
 gem 'simple_form'
 gem 'smart_init'
+gem 'therubyracer'
 gem 'thinking-sphinx'
 gem 'unicorn'
-gem 'dotenv'
-gem 'dotenv-deployment'
-gem 'therubyracer'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -72,14 +73,14 @@ group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'web-console', '>= 3.3.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'capistrano', require: false
   gem 'capistrano-bundler', require: false
+  gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
   gem 'capistrano-sidekiq', require: false
-  gem 'capistrano-rails', require: false
   gem 'capistrano3-unicorn', require: false
+  gem 'spring'
+  gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
 group :test do

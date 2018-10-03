@@ -1,35 +1,37 @@
-%h2= @question.title
-%p= @question.body
-%ul
-  %h3= 'Question Fiels:'
 
-  - @question.attachments.each do |attachment|
-    - if attachment.file.present?
-      %li= attachment.file.file.filename
+- cache @question do
+  %h2= @question.title
+  %p= @question.body
+  %ul
+    %h3= 'Question Fiels:'
 
-  %h3= 'Question comments:'
-  .question-comments
-    = render partial: 'comments/comments', locals: { object: @question, type: 'Question' }
+    - @question.attachments.each do |attachment|
+      - if attachment.file.present?
+        %li= attachment.file.file.filename
 
-  .answers
-    %h3= 'Answers:'
-    = render partial: 'answers/index', locals: { question: @question }
+    %h3= 'Question comments:'
+    .question-comments
+      = render partial: 'comments/comments', locals: { object: @question, type: 'Question' }, cached: true
 
-  %br
-  .new_answer
-    = simple_nested_form_for(Answer.new, remote: true, multiple: true, authenticity_token: true) do |f|
-      = f.hidden_field :owner_id, value: current_user.id
-      = f.hidden_field :question_id, value: @question.id
-      = f.input :body, input_html: { id: :new_answer_body }
-      = f.simple_fields_for :attachments, AnswerAttachment.new do |a|
-        = a.input :file, as: :file
-        = a.link_to_remove 'Remove this attachment'
-      = f.link_to_add 'Add new attachment field', :attachments
-      = f.button :submit
+    .answers
+      %h3= 'Answers:'
+      = render partial: 'answers/index', locals: { question: @question }, cached: true
 
-  .question-vote
-    - unless @question.owner == current_user
-      = render partial: 'votes/vote', locals: { object: @question, type: 'Question', current_user: current_user }
+    %br
+    .new_answer
+      = simple_nested_form_for(Answer.new, remote: true, multiple: true, authenticity_token: true) do |f|
+        = f.hidden_field :owner_id, value: current_user.id
+        = f.hidden_field :question_id, value: @question.id
+        = f.input :body, input_html: { id: :new_answer_body }
+        = f.simple_fields_for :attachments, AnswerAttachment.new do |a|
+          = a.input :file, as: :file
+          = a.link_to_remove 'Remove this attachment'
+        = f.link_to_add 'Add new attachment field', :attachments
+        = f.button :submit
 
-  %h3= 'Subscribe Notification'
-  = render partial: 'subscribe_notifications/subscribe_notification', locals: { question: @question, current_user: current_user }
+    .question-vote
+      - unless @question.owner == current_user
+        = render partial: 'votes/vote', locals: { object: @question, type: 'Question', current_user: current_user }
+
+    %h3= 'Subscribe Notification'
+    = render partial: 'subscribe_notifications/subscribe_notification', locals: { question: @question, current_user: current_user }

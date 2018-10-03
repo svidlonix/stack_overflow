@@ -1,21 +1,22 @@
 - question.answers.each do |answer|
-  %p= answer.body
-  
-  %div{ class: "answer-vote-#{answer.id}" }
-    - unless answer.owner == current_user
-      = render partial: 'votes/vote', locals: { object: answer, type: 'Answer', current_user: current_user }
+  - cache answer do
+    %p= answer.body
 
-  %ul
-    %h3= 'Answe Fiels:'
-    - answer.attachments.each do |attachment|
-      - if attachment.file.present?
-        %li= attachment.file.file.filename
-    - if answer.owner == current_user
-      = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+    %div{ class: "answer-vote-#{answer.id}" }
+      - unless answer.owner == current_user
+        = render partial: 'votes/vote', locals: { object: answer, type: 'Answer', current_user: current_user }
 
-  %h3= 'Answer comments:'
-  %div{ class: "answer-comments-#{answer.id}" }
-    = render partial: 'comments/comments', locals: { object: answer, type: 'Answer', current_user: current_user }
+    %ul
+      %h3= 'Answe Fiels:'
+      - answer.attachments.each do |attachment|
+        - if attachment.file.present?
+          %li= attachment.file.file.filename
+      - if answer.owner == current_user
+        = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+
+    %h3= 'Answer comments:'
+    %div{ class: "answer-comments-#{answer.id}" }
+      = render partial: 'comments/comments', locals: { object: answer, type: 'Answer', current_user: current_user }
 
   = simple_nested_form_for(answer, remote: true, multiple: true, authenticity_token: true, html: { class: 'hidden', id: "edit-answer-#{answer.id}" }) do |f|
     = f.hidden_field :owner_id, value: current_user.id
